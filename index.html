@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>منصة الرياضيات | الصف الأول الإعدادي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#03050d;--bg-navy:#0a1128;
+    --gold:#d4af37;--gold-light:#f3d877;--gold-deep:#9c7a26;--gold-soft:rgba(212,175,55,0.32);
+    --text-soft:#dce1f5;--text-dim:#8d94b8;
+    --panel:rgba(15,21,52,0.68);--panel-2:rgba(11,16,40,0.85);
+    --border:rgba(212,175,55,0.24);--border-soft:rgba(255,255,255,0.08);
+    --shadow-1:0 10px 30px rgba(0,0,0,0.35);--shadow-2:0 18px 44px rgba(0,0,0,0.45);
+    --c1:#E8543A;--c2:#3FBE8E;--c3:#9B7FE0;--c4:#3FB8C9;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#14204f 0%,var(--bg-navy) 40%,var(--bg-deep) 100%);font-family:'Cairo',sans-serif;color:var(--text-soft);overflow-x:hidden;position:relative;padding-bottom:96px;}
+  #stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .top-accent{position:fixed;top:0;left:0;right:0;height:3px;z-index:6;background:linear-gradient(90deg,transparent,var(--gold-deep),var(--gold-light),var(--gold-deep),transparent);opacity:.85;}
+  .orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+  .orb1{width:60vw;height:60vw;background:radial-gradient(circle,rgba(232,84,58,0.15),transparent 70%);top:-20%;right:-20%;animation:d1 25s ease-in-out infinite;}
+  .orb2{width:55vw;height:55vw;background:radial-gradient(circle,rgba(212,175,55,0.12),transparent 70%);bottom:-20%;left:-15%;animation:d2 30s ease-in-out infinite;}
+  .orb3{width:40vw;height:40vw;background:radial-gradient(circle,rgba(63,190,142,0.10),transparent 70%);top:40%;left:25%;animation:d3 20s ease-in-out infinite;}
+  @keyframes d1{0%,100%{transform:translate(0,0);}50%{transform:translate(-8vw,6vh);}}
+  @keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(9vw,-7vh);}}
+  @keyframes d3{0%,100%{transform:translate(0,0);}50%{transform:translate(-5vw,9vh);}}
+  .en{font-family:'Cairo',sans-serif;direction:ltr;display:inline-block;unicode-bidi:isolate;}
+  #app{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:22px 16px 30px;min-height:100vh;}
+  header.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 20px;margin-bottom:22px;background:linear-gradient(135deg,var(--panel),var(--panel-2));border:1px solid var(--border);border-radius:16px;backdrop-filter:blur(8px);box-shadow:var(--shadow-1);}
+  body.on-gate header.topbar{display:none;}
+  body.on-gate .crumb{display:none !important;}
+  .brand-title .en-t{font-family:'Cinzel Decorative',serif;color:var(--gold-light);font-size:clamp(14px,3.4vw,20px);letter-spacing:1.5px;text-shadow:0 0 14px var(--gold-soft);}
+  .brand-title .sub{font-size:12.5px;color:var(--text-dim);}
+  .crumb{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+  .crumb-chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-dim);background:var(--panel);border:1px solid var(--border-soft);border-radius:999px;padding:6px 12px;cursor:pointer;transition:border-color .15s,color .15s;}
+  .crumb-chip:hover{border-color:var(--gold-soft);color:var(--gold-light);}
+  .crumb-chip.cur{color:var(--gold-light);border-color:var(--gold-soft);background:rgba(212,175,55,0.08);cursor:default;font-weight:700;}
+  .screen{display:none;}
+  .screen.active{display:block;animation:fadeIn .45s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+  /* GATE */
+  #screen-gate.active{display:flex;flex-direction:column;min-height:100vh;padding:0;}
+  .gate-topbar{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:20px 28px;flex-shrink:0;}
+  .gate-topbar .g-logo{display:flex;align-items:center;gap:10px;}
+  .gate-topbar .g-logo .mk{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#f3d877,#9c7a26);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-weight:700;font-size:13px;color:#1a1304;}
+  .gate-topbar .g-logo .nm{font-family:'Cinzel Decorative',serif;color:var(--gold-light);font-size:13px;letter-spacing:1px;}
+  .gate-wa{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;background:linear-gradient(135deg,#2bd97a,#1aa84f);color:#06250f;font-weight:800;font-size:12.5px;text-decoration:none;box-shadow:0 4px 14px rgba(43,217,122,0.25);font-family:'Cairo',sans-serif;transition:transform .15s;}
+  .gate-wa:hover{transform:translateY(-1px);}
+  .gate-hero{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 22px 20px;}
+  .gate-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:999px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.28);font-size:12px;color:var(--gold);font-weight:700;margin-bottom:22px;letter-spacing:.3px;}
+  .gate-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s ease-in-out infinite;flex:0 0 auto;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  .gate-h1{font-family:'Cinzel Decorative',serif;margin-bottom:14px;}
+  .gate-h1 .ar{display:block;color:#fff;font-size:clamp(22px,5vw,44px);font-family:'Cairo',sans-serif;font-weight:800;}
+  .gate-h1 .en{display:block;background:linear-gradient(135deg,#f3d877,#d4af37,#9c7a26);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;font-size:clamp(32px,8vw,80px);line-height:1;font-family:'Cinzel Decorative',serif;}
+  .gate-tagline{font-size:clamp(13px,2vw,16px);color:var(--text-dim);max-width:500px;line-height:1.7;margin-bottom:28px;}
+  .gate-stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+  .gate-stat{padding:9px 20px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);}
+  .gate-stat b{font-size:17px;color:var(--gold-light);font-weight:900;}
+  .gate-features{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+  .gate-feat{padding:13px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);display:flex;align-items:center;gap:10px;transition:all .2s;}
+  .gate-feat:hover{border-color:rgba(212,175,55,0.3);background:rgba(212,175,55,0.06);}
+  .gate-feat .fic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto;}
+  .gate-feat-txt h3{font-size:13px;color:var(--text-soft);font-weight:700;margin:0 0 2px;}
+  .gate-feat-txt p{font-size:11px;color:var(--text-dim);margin:0;}
+  .gate-input-card{width:100%;max-width:460px;background:rgba(10,15,38,0.7);backdrop-filter:blur(18px);border:1px solid rgba(212,175,55,0.22);border-radius:20px;padding:24px;}
+  .gold-btn{width:100%;padding:15px 18px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold-light),var(--gold) 55%,var(--gold-deep));color:#1a1304;font-family:'Cairo',sans-serif;font-weight:800;font-size:15.5px;box-shadow:0 8px 22px rgba(212,175,55,0.28);transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+  .gold-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(212,175,55,0.38);}
+  .gate-foot{position:relative;z-index:3;text-align:center;padding:14px 24px 90px;font-size:11.5px;color:#2a2e4a;flex-shrink:0;}
+
+  /* UNIT GRID */
+  .announce-bar{position:relative;z-index:6;background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(91,141,239,0.12));border:1px solid rgba(212,175,55,0.35);border-radius:14px;padding:13px 16px 13px 44px;margin-bottom:18px;display:flex;align-items:center;gap:12px;animation:slideDown .4s ease;box-shadow:0 4px 18px rgba(0,0,0,0.25);}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeOut{from{opacity:1;}to{opacity:0;transform:translateY(-8px);}}
+  .announce-bar .a-badge{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(212,175,55,0.2);border:1px solid rgba(212,175,55,0.4);color:var(--gold-light);font-size:11px;font-weight:800;white-space:nowrap;}
+  .announce-bar .a-text{flex:1;font-size:13px;color:var(--text-soft);line-height:1.5;}
+  .announce-bar .a-text b{color:var(--gold-light);}
+  .announce-bar .a-date{flex:0 0 auto;font-size:11px;color:var(--text-dim);white-space:nowrap;}
+  .announce-bar .a-close{position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;padding:2px;transition:color .15s;}
+  .announce-bar .a-close:hover{color:var(--gold-light);}
+  .welcome{text-align:center;margin-bottom:18px;}
+  .welcome h2{font-family:'Cinzel Decorative',serif;color:var(--gold-light);font-size:clamp(17px,4vw,22px);margin:0 0 6px;text-shadow:0 0 14px var(--gold-soft);}
+  .welcome p{color:var(--text-dim);font-size:13.5px;margin:0;}
+  .stats-strip{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0 28px;}
+  .stat-pill{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:var(--panel);border:1px solid var(--border-soft);font-size:12.5px;color:var(--text-dim);}
+  .stat-pill b{color:var(--gold-light);font-size:13.5px;}
+  .unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+  .unit-card{position:relative;border-radius:18px;padding:22px 20px;cursor:pointer;background:linear-gradient(160deg,rgba(17,24,58,0.85),rgba(7,10,26,0.92));border:1px solid var(--border-soft);overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;opacity:0;animation:popIn .5s ease forwards;}
+  .unit-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(0,0,0,0.45);border-color:var(--accent,var(--gold));}
+  .unit-badge{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;font-weight:900;background:linear-gradient(150deg,var(--accent,var(--gold)),rgba(255,255,255,0.15));color:#fff;font-size:18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.35);font-family:'Cairo',sans-serif;}
+  .unit-card h3{margin:0 0 4px;}
+  .unit-card h3 .en-title{font-size:14px;color:var(--gold-light);font-weight:700;direction:ltr;text-align:right;display:block;line-height:1.35;}
+  .unit-card h3 .ar-title{font-size:15px;color:var(--text-soft);font-weight:800;display:block;line-height:1.4;}
+  .unit-card .meta{font-size:12px;color:var(--text-dim);margin-bottom:12px;}
+  .progress-track{height:5px;border-radius:99px;background:rgba(255,255,255,0.07);overflow:hidden;margin-bottom:10px;}
+  .progress-fill{height:100%;border-radius:99px;background:var(--accent,var(--gold));}
+  .unit-card .go{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--accent,var(--gold));font-weight:700;}
+
+  /* UNIT DETAIL */
+  .unit-hero{position:relative;border-radius:18px;padding:24px 22px;margin-bottom:22px;overflow:hidden;background:linear-gradient(135deg,rgba(17,24,58,0.92),rgba(7,10,26,0.88));border:1px solid var(--accent,var(--border));box-shadow:var(--shadow-1);}
+  .unit-hero::before{content:"";position:absolute;top:-40%;left:-10%;width:60%;height:160%;background:radial-gradient(circle,var(--accent,var(--gold)) 0%,transparent 70%);opacity:.10;pointer-events:none;}
+  .unit-hero h2{margin:0 0 4px;font-size:clamp(17px,4vw,22px);color:var(--text-soft);}
+  .unit-hero p{margin:0 0 14px;color:var(--text-dim);font-size:13.5px;}
+  .unit-hero .hero-stat{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);background:rgba(0,0,0,0.2);border:1px solid var(--border-soft);padding:6px 13px;border-radius:999px;}
+  .unit-hero .hero-stat b{color:var(--accent,var(--gold-light));}
+  .lesson-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+  .lesson-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--border-soft);cursor:pointer;transition:border-color .18s,transform .18s,background .18s;}
+  .lesson-row:hover{border-color:var(--accent,var(--gold));transform:translateX(-3px);background:rgba(255,255,255,0.03);}
+  .lesson-row .lnum{flex:0 0 auto;width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;background:rgba(255,255,255,0.04);color:var(--accent,var(--gold-light));border:1px solid var(--border-soft);text-align:center;line-height:1.2;}
+  .lesson-row .ltext{flex:1;min-width:0;}
+  .lesson-row .ltext .en{font-size:14px;color:var(--text-soft);font-weight:700;display:block;margin-bottom:2px;}
+  .lesson-row .ltext .ar{font-size:12px;color:var(--text-dim);}
+  .status-pill{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:6px 11px;border-radius:999px;white-space:nowrap;font-weight:700;}
+  .status-pill.ready{background:rgba(91,141,239,0.15);color:#9ec0ff;border:1px solid rgba(91,141,239,0.4);}
+  .status-pill.soon{background:rgba(255,255,255,0.04);color:var(--text-dim);border:1px solid var(--border-soft);}
+
+  /* LESSON */
+  .lesson-hero{position:relative;border-radius:18px;padding:24px 22px;margin-bottom:24px;overflow:hidden;background:linear-gradient(135deg,rgba(17,24,58,0.92),rgba(7,10,26,0.88));border:1px solid var(--accent,var(--border));box-shadow:var(--shadow-1);}
+  .lesson-hero .eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);margin-bottom:8px;font-weight:600;}
+  .lesson-hero h2{margin:0 0 6px;font-size:clamp(17px,4vw,23px);color:var(--text-soft);}
+  .lesson-hero .page-ref{font-size:12px;color:var(--text-dim);}
+  .tab-nav{display:flex;gap:6px;margin-bottom:20px;background:rgba(0,0,0,0.25);border:1px solid var(--border-soft);border-radius:14px;padding:5px;}
+  .tab-btn{flex:1;padding:11px 8px;border-radius:10px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;background:transparent;color:var(--text-dim);transition:background .18s,color .18s;white-space:nowrap;}
+  .tab-btn.active{background:linear-gradient(135deg,var(--acc1,var(--gold-light)),var(--acc2,var(--gold-deep)));color:#0a0e20;box-shadow:0 4px 14px rgba(0,0,0,0.35);}
+  .tab-btn:not(.active):hover{background:rgba(255,255,255,0.06);color:var(--text-soft);}
+  .tab-pane{display:none;}
+  .tab-pane.active{display:block;animation:fadeIn .3s ease;}
+  .vs2-list{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;}
+  .vs2-row{display:flex;align-items:stretch;gap:0;border-radius:14px;overflow:hidden;background:var(--panel);border:1px solid var(--border-soft);text-decoration:none;transition:border-color .18s,transform .18s;}
+  .vs2-row:hover{border-color:var(--acc1,var(--gold-soft));transform:translateX(-3px);}
+  .vs2-thumb{flex:0 0 130px;position:relative;overflow:hidden;}
+  .vs2-thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.72);transition:filter .2s;}
+  .vs2-row:hover .vs2-thumb img{filter:brightness(.9);}
+  .vs2-thumb .vs2-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .vs2-thumb .vs2-play svg{color:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.7));transition:transform .18s;}
+  .vs2-row:hover .vs2-play svg{transform:scale(1.15);}
+  .vs2-body{flex:1;display:flex;align-items:center;gap:10px;padding:14px 16px;}
+  .vs2-body .vnum{flex:0 0 auto;font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;color:var(--acc1,var(--gold-light));border:1px solid var(--border-soft);}
+  .vs2-body .vtxt{flex:1;font-size:13.5px;color:var(--text-soft);font-weight:700;line-height:1.4;direction:ltr;text-align:right;}
+  .download-card{background:linear-gradient(135deg,rgba(91,141,239,0.12),rgba(16,23,61,0.75));border:1px solid rgba(91,141,239,0.35);border-radius:18px;padding:32px 22px;text-align:center;box-shadow:var(--shadow-1);}
+  .download-card h3{margin:0 0 7px;color:var(--text-soft);font-size:17px;font-weight:800;}
+  .download-card p{margin:0 0 22px;color:var(--text-dim);font-size:13.5px;line-height:1.6;}
+  .btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(135deg,#5B8DEF,#3a5fcf);color:#fff;font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(91,141,239,0.3);transition:transform .15s;}
+  .btn-download:hover{transform:translateY(-2px);}
+  .tip-box{background:rgba(212,175,55,0.07);border:1px dashed var(--gold-soft);border-radius:14px;padding:15px 17px;font-size:13.5px;color:var(--text-soft);margin-top:20px;display:flex;gap:11px;align-items:flex-start;}
+  .soon-box{text-align:center;padding:50px 22px;background:var(--panel);border:1px dashed var(--border-soft);border-radius:18px;}
+  .soon-box h3{color:var(--gold-light);font-size:16.5px;margin:0 0 8px;font-family:'Cinzel Decorative',serif;}
+  .soon-box p{color:var(--text-dim);font-size:13.5px;margin:0 0 20px;line-height:1.6;}
+  .btn-solid{padding:10px 17px;border-radius:10px;border:none;background:linear-gradient(135deg,#2bd97a,#1aa84f);color:#06250f;font-family:'Cairo',sans-serif;font-weight:800;font-size:13.5px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:transform .15s;box-shadow:0 6px 16px rgba(43,217,122,0.22);}
+  .btn-solid:hover{transform:translateY(-1px);}
+  footer.brandbar{position:fixed;bottom:0;left:0;right:0;z-index:5;background:rgba(4,6,16,0.94);backdrop-filter:blur(10px);border-top:1px solid var(--border);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 -8px 24px rgba(0,0,0,0.35);}
+  .footer-id{display:flex;align-items:center;gap:10px;}
+  .footer-id .mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));display:flex;align-items:center;justify-content:center;color:#1a1304;font-family:'Cinzel Decorative',serif;font-weight:700;font-size:13px;flex:0 0 auto;}
+  .footer-id .name{font-family:'Cinzel Decorative',serif;color:var(--gold-light);font-size:12.5px;letter-spacing:.4px;}
+  .footer-id .phone{font-size:11px;color:var(--text-dim);direction:ltr;}
+  .contact-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 19px;border-radius:999px;border:none;cursor:pointer;background:linear-gradient(135deg,#2bd97a,#1aa84f);color:#06250f;font-family:'Cairo',sans-serif;font-weight:800;font-size:12.5px;text-decoration:none;box-shadow:0 6px 18px rgba(43,217,122,0.3);transition:transform .15s;}
+  .contact-btn:hover{transform:translateY(-1px);}
+  @media(max-width:480px){header.topbar{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<div class="top-accent"></div>
+<canvas id="stars"></canvas>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand-title">
+      <span class="en-t">MATH PLATFORM</span>
+      <span class="sub" style="display:block;">منصة الـ MATH · الصف الأول الإعدادي</span>
+    </div>
+  </header>
+  <div class="crumb" id="crumbBar" style="display:none;"></div>
+
+  <!-- GATE -->
+  <section id="screen-gate" class="screen active">
+    <div class="gate-topbar">
+      <div class="g-logo"><div class="mk">EN</div><span class="nm">ENGINEER NADEIM</span></div>
+      <a class="gate-wa" id="gateWaBtn" href="#">💬 CONTACT US</a>
+    </div>
+    <div class="gate-hero">
+      <div class="gate-pill"><span class="dot"></span>منصة تعليمية تفاعلية · Grade 7 Math</div>
+      <h1 class="gate-h1">
+        <span class="ar">منصة الـ MATH</span>
+        <span class="en">GRADE 7</span>
+      </h1>
+      <p class="gate-tagline">الصف الأول الإعدادي — فيديوهات شرح وملفات PDF وكويزات تفاعلية لكل درس في المنهج الوزاري</p>
+      <div class="gate-stats">
+        <div class="gate-stat"><b>4</b><span>وحدات</span></div>
+        <div class="gate-stat"><b>21</b><span>درس</span></div>
+        <div class="gate-stat"><b>100%</b><span>مجانًا</span></div>
+      </div>
+      <div class="gate-features">
+        <div class="gate-feat"><div class="fic" style="background:rgba(232,84,58,0.2);">🎥</div><div class="gate-feat-txt"><h3>فيديوهات شرح</h3><p>لكل درس في المنهج</p></div></div>
+        <div class="gate-feat"><div class="fic" style="background:rgba(63,190,142,0.2);">📄</div><div class="gate-feat-txt"><h3>ملفات PDF</h3><p>شرح ومسائل للتدريب</p></div></div>
+        <div class="gate-feat"><div class="fic" style="background:rgba(212,175,55,0.2);">✅</div><div class="gate-feat-txt"><h3>كويزات أونلاين</h3><p>اختبر نفسك بعد كل درس</p></div></div>
+      </div>
+      <div class="gate-input-card">
+        <button class="gold-btn" onclick="enterPlatform()">دخول المنصة ←</button>
+      </div>
+    </div>
+    <div class="gate-foot">📞 01061782782 · جميع الحقوق محفوظة · Engineer Nadeim</div>
+  </section>
+
+  <!-- UNITS -->
+  <section id="screen-units" class="screen">
+    <div id="announceBar"></div>
+    <div class="welcome">
+      <h2>اختر الوحدة التي تريد مذاكرتها</h2>
+      <p>4 وحدات دراسية — اضغط على أي وحدة لعرض دروسها</p>
+    </div>
+    <div class="stats-strip" id="statsStrip"></div>
+    <div class="unit-grid" id="unitGrid"></div>
+  </section>
+
+  <!-- UNIT DETAIL -->
+  <section id="screen-unit" class="screen">
+    <div class="unit-hero" id="unitHero"></div>
+    <div class="lesson-list" id="lessonList"></div>
+  </section>
+
+  <!-- LESSON -->
+  <section id="screen-lesson" class="screen">
+    <div class="lesson-hero" id="lessonHero"></div>
+    <div id="lessonBody"></div>
+  </section>
+</div>
+
+<footer class="brandbar">
+  <div class="footer-id">
+    <span class="mark">EN</span>
+    <div>
+      <div class="name">ENGINEER NADEIM</div>
+      <div class="phone">+20 106 178 2782</div>
+    </div>
+  </div>
+  <a class="contact-btn" id="contactBtn" href="#" target="_blank" rel="noopener">💬 CONTACT US</a>
+</footer>
+
+<script>
+const PHONE = "201061782782";
+const waLink = t => `https://wa.me/${PHONE}?text=${encodeURIComponent(t)}`;
+document.getElementById('gateWaBtn').href = waLink('السلام عليكم، أريد الاستفسار عن منصة الرياضيات للصف الأول الإعدادي.');
+document.getElementById('contactBtn').href = waLink('السلام عليكم، أريد الاستفسار عن منصة الرياضيات للصف الأول الإعدادي.');
+
+document.body.classList.add('on-gate');
+
+const ANNOUNCEMENT = {
+  active: true,
+  date: 'يونيو 2025',
+  text: '🎉 <b>تم إطلاق منصة الصف الأول الإعدادي!</b> — جاري إضافة شرح الوحدة الأولى تباعًا، تابعونا!'
+};
+
+/* ===================== CURRICULUM ===================== */
+const CURRICULUM = [
+  {
+    id:1, accent:'var(--c1)',
+    enTitle:'Numbers and Operations on Them',
+    arTitle:'الأعداد والعمليات عليها',
+    lessons:[
+      { id:'u1l1', num:'1', en:'Proportion', ar:'النسبة والتناسب', page:10 },
+      { id:'u1l2', num:'2', en:'Applications of Ratio & Proportion – Scale Drawings', ar:'تطبيقات النسبة والتناسب: الرسم بالمقياس', page:21 },
+      { id:'u1l3', num:'3', en:'Applications of Ratio & Proportion – Proportional Division', ar:'تطبيقات النسبة والتناسب: القسمة التناسبية', page:31 },
+      { id:'u1l4', num:'4', en:'Applications of Ratio & Proportion – Percentages', ar:'تطبيقات النسبة والتناسب: النسبة المئوية', page:43 },
+      { id:'u1l5', num:'5', en:'Sets and Their Operations', ar:'المجموعات والعمليات عليها', page:50 },
+      { id:'u1l6', num:'6', en:'Operations on Integers', ar:'العمليات على الأعداد الصحيحة', page:64 },
+      { id:'u1l7', num:'7', en:'Operations on Rational Numbers', ar:'العمليات على الأعداد النسبية', page:80 },
+    ]
+  },
+  {
+    id:2, accent:'var(--c2)',
+    enTitle:'Algebra',
+    arTitle:'الجبر',
+    lessons:[
+      { id:'u2l1', num:'1', en:'Mathematical Expressions & Algebraic Terms – Addition & Subtraction', ar:'التعبيرات الرياضية والحدود الجبرية – الجمع والطرح', page:97 },
+      { id:'u2l2', num:'2', en:'Addition and Subtraction of Algebraic Expressions', ar:'جمع وطرح التعبيرات الجبرية', page:109 },
+      { id:'u2l3', num:'3', en:'Linear Equations', ar:'المعادلات الخطية', page:118 },
+    ]
+  },
+  {
+    id:3, accent:'var(--c3)',
+    enTitle:'Geometry and Measurement',
+    arTitle:'الهندسة والقياس',
+    lessons:[
+      { id:'u3l1', num:'1', en:'Types of Angles and Relationships Between Them', ar:'أنواع الزوايا والعلاقات بينها', page:132 },
+      { id:'u3l2', num:'2', en:'Continue to Angle Relationships', ar:'تكملة العلاقات بين الزوايا', page:147 },
+      { id:'u3l3', num:'3', en:'Parallelism', ar:'التوازي', page:157 },
+      { id:'u3l4', num:'4', en:'The Triangle', ar:'المثلث', page:170 },
+      { id:'u3l5', num:'5', en:'Quadrilaterals', ar:'الشكل الرباعي', page:184 },
+      { id:'u3l6', num:'6', en:'Continue to Special Quadrilaterals', ar:'تكملة الأشكال الرباعية الخاصة', page:196 },
+      { id:'u3l7', num:'7', en:'Polygons', ar:'المضلعات', page:208 },
+      { id:'u3l8', num:'8', en:'Coordinates', ar:'الإحداثيات', page:227 },
+    ]
+  },
+  {
+    id:4, accent:'var(--c4)',
+    enTitle:'Statistics',
+    arTitle:'الإحصاء',
+    lessons:[
+      { id:'u4l1', num:'1', en:'Organizing Data', ar:'تنظيم البيانات', page:243 },
+      { id:'u4l2', num:'2', en:'Arithmetic Mean', ar:'الوسط الحسابي', page:259 },
+      { id:'u4l3', num:'3', en:'Pie Charts', ar:'الرسم الدائري', page:271 },
+    ]
+  }
+];
+
+/* ===================== LESSON CONTENT ===================== */
+const LESSON_CONTENT = {
+  // أضف الروابط هنا تدريجيًا
+  // مثال:
+  // 'u1l1': {
+  //   videos:[{ en:'شرح النسبة والتناسب', url:'https://youtu.be/XXXX' }],
+  //   fileUrl:'https://nadeim80-cmyk.github.io/math7unit1lesson1/',
+  //   tip:'شاهد الشرح ثم افتح ملف الكويز.'
+  // },
+};
+
+/* ===================== HELPERS ===================== */
+function unitStats(u){
+  const total = u.lessons.length;
+  const ready = u.lessons.filter(l=>LESSON_CONTENT[l.id]).length;
+  return {ready,total};
+}
+function overallStats(){
+  let t=0,r=0;
+  CURRICULUM.forEach(u=>{const s=unitStats(u);t+=s.total;r+=s.ready;});
+  return {ready:r,total:t};
+}
+function extractYTId(url){
+  const m=url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{6,})/);
+  return m?m[1]:'';
+}
+function switchTab(btn,paneId){
+  btn.closest('.tab-nav').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('lessonBody').querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+}
+
+/* ===================== NAVIGATION ===================== */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.body.classList.toggle('on-gate', id==='screen-gate');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setCrumb(items){
+  const bar=document.getElementById('crumbBar');
+  if(items.length<=1){bar.style.display='none';return;}
+  bar.style.display='flex';
+  bar.innerHTML=items.map((it,i)=>{
+    const isLast=i===items.length-1;
+    return `<span class="crumb-chip ${isLast?'cur':''}" ${isLast?'':`onclick="${it.action}"`}>${it.label}</span>`+
+      (isLast?'':'<span style="color:var(--text-dim);opacity:.5;font-size:11px;">‹</span>');
+  }).join('');
+}
+function enterPlatform(){renderUnits();showScreen('screen-units');setCrumb([{label:'الرئيسية'}]);}
+function goHome(){renderUnits();showScreen('screen-units');setCrumb([{label:'الرئيسية'}]);}
+function dismissAnnounce(){
+  const el=document.getElementById('announceBar');
+  if(el){el.style.animation='fadeOut .3s ease forwards';setTimeout(()=>el.innerHTML='',300);}
+}
+
+/* ===================== UNITS SCREEN ===================== */
+const ACCENT_COLORS = {
+  'var(--c1)':['#FF7A5C','#a02000'],
+  'var(--c2)':['#5DE0A8','#1e7a55'],
+  'var(--c3)':['#B59EF0','#5040a0'],
+  'var(--c4)':['#5DD4E4','#1e7090'],
+};
+const UNIT_ICONS = ['🔢','📐','📏','📊'];
+
+function renderUnits(){
+  const ab=document.getElementById('announceBar');
+  if(ANNOUNCEMENT.active&&ab&&!ab.dataset.dismissed){
+    ab.innerHTML=`<div class="announce-bar"><span class="a-badge">🔔 جديد</span><span class="a-text">${ANNOUNCEMENT.text}</span><span class="a-date">${ANNOUNCEMENT.date}</span><button class="a-close" onclick="dismissAnnounce()">✕</button></div>`;
+    ab.dataset.dismissed='0';
+  }
+  const all=overallStats();
+  document.getElementById('statsStrip').innerHTML=`
+    <span class="stat-pill">📚 <b>${all.ready}</b>&nbsp;من&nbsp;<b>${all.total}</b> درس متاح</span>
+    <span class="stat-pill">🏆 <b>4</b>&nbsp;وحدات دراسية</span>`;
+  document.getElementById('unitGrid').innerHTML=CURRICULUM.map((u,i)=>{
+    const s=unitStats(u);
+    const pct=Math.round((s.ready/s.total)*100);
+    return `<div class="unit-card" style="--accent:${u.accent};animation-delay:${i*0.06}s" onclick="openUnit(${u.id})">
+      <div class="unit-badge" style="background:linear-gradient(135deg,${(ACCENT_COLORS[u.accent]||['var(--gold)','var(--gold-deep)'])[0]},rgba(255,255,255,0.15));">${UNIT_ICONS[i]}</div>
+      <h3><span class="en-title">UNIT ${u.id} — ${u.enTitle}</span><span class="ar-title">${u.arTitle}</span></h3>
+      <div class="meta">${s.ready} من ${u.lessons.length} دروس متاحة</div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="go">عرض الدروس →</div>
+    </div>`;
+  }).join('');
+}
+
+/* ===================== UNIT DETAIL ===================== */
+function openUnit(id){
+  const u=CURRICULUM.find(x=>x.id===id);
+  const s=unitStats(u);
+  const [acc1]=(ACCENT_COLORS[u.accent]||['var(--gold)']);
+  document.getElementById('unitHero').style.setProperty('--accent',u.accent);
+  document.getElementById('unitHero').innerHTML=`
+    <div class="unit-badge" style="background:linear-gradient(135deg,${acc1},rgba(255,255,255,0.15));margin-bottom:12px;">${UNIT_ICONS[id-1]}</div>
+    <h2>UNIT ${u.id} — ${u.enTitle}</h2>
+    <p>${u.arTitle}</p>
+    <span class="hero-stat">📚 <b>${s.ready}</b>&nbsp;من&nbsp;<b>${s.total}</b> دروس متاحة</span>`;
+  document.getElementById('lessonList').innerHTML=u.lessons.map(l=>{
+    const ready=!!LESSON_CONTENT[l.id];
+    return `<div class="lesson-row" style="--accent:${u.accent}" onclick="openLesson('${l.id}')">
+      <div class="lnum" style="color:${acc1};border-color:${acc1}33;">درس<br>${l.num}</div>
+      <div class="ltext">
+        <span class="en">${l.en}</span>
+        <span class="ar">${l.ar} &middot; صفحة ${l.page}</span>
+      </div>
+      <span class="status-pill ${ready?'ready':'soon'}">${ready?'▶ متاح':'⏳ قريبًا'}</span>
+    </div>`;
+  }).join('');
+  showScreen('screen-unit');
+  setCrumb([{label:'الرئيسية',action:'goHome()'},{label:`UNIT ${u.id}`}]);
+}
+
+/* ===================== LESSON SCREEN ===================== */
+function findLesson(lessonId){
+  for(const u of CURRICULUM){
+    const l=u.lessons.find(x=>x.id===lessonId);
+    if(l) return {unit:u,lesson:l};
+  }
+  return null;
+}
+function openLesson(lessonId){
+  const {unit:u,lesson:l}=findLesson(lessonId);
+  const content=LESSON_CONTENT[lessonId];
+  const [acc1,acc2]=(ACCENT_COLORS[u.accent]||['var(--gold-light)','var(--gold-deep)']);
+  document.getElementById('lessonHero').style.setProperty('--accent',u.accent);
+  document.getElementById('lessonHero').innerHTML=`
+    <div class="eyebrow">UNIT ${u.id} — ${u.arTitle} · درس ${l.num}</div>
+    <h2>${l.en}</h2>
+    <div class="page-ref">${l.ar} &middot; صفحة الكتاب ${l.page}</div>`;
+  const body=document.getElementById('lessonBody');
+  if(!content){
+    body.innerHTML=`<div class="soon-box"><h3>قيد الإعداد</h3><p>شرح هذا الدرس هيتضاف قريبًا جدًا، ابقَ على تواصل!</p><a class="btn-solid" href="${waLink('السلام عليكم، أريد الاستفسار عن موعد إضافة شرح درس: '+l.en)}" target="_blank">💬 اسأل على واتساب</a></div>`;
+    showScreen('screen-lesson');
+    setCrumb([{label:'الرئيسية',action:'goHome()'},{label:`UNIT ${u.id}`,action:`openUnit(${u.id})`},{label:'الدرس'}]);
+    return;
+  }
+  // Tab 1: Videos
+  let t1='';
+  if(content.videos&&content.videos.length){
+    t1=`<div class="vs2-list">`+content.videos.map((v,i)=>{
+      const vid=extractYTId(v.url);
+      return `<a class="vs2-row" href="https://www.youtube.com/watch?v=${vid}" target="_blank" rel="noopener">
+        <div class="vs2-thumb" style="background:linear-gradient(135deg,${acc1}55,${acc2}88);">
+          <img src="https://img.youtube.com/vi/${vid}/mqdefault.jpg" alt="${v.en}" loading="lazy">
+          <div class="vs2-play"><svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11-6.86a1 1 0 0 0 0-1.72l-11-6.86A1 1 0 0 0 8 5.14Z"/></svg></div>
+        </div>
+        <div class="vs2-body">
+          <span class="vnum" style="background:${acc1}22;color:${acc1};">فيديو ${i+1}</span>
+          <span class="vtxt">${v.en}</span>
+        </div>
+      </a>`;
+    }).join('')+`</div>`;
+  } else {
+    t1=`<div class="soon-box"><h3>الفيديوهات قيد الإعداد</h3><p>هيتم إضافة فيديوهات الشرح قريبًا!</p></div>`;
+  }
+  if(content.tip) t1+=`<div class="tip-box">💡 <span>${content.tip}</span></div>`;
+  // Tab 2: File
+  let t2='';
+  if(content.fileUrl){
+    t2=`<div class="download-card" style="background:linear-gradient(135deg,${acc1}18,rgba(16,23,61,0.75));border-color:${acc1}44;">
+      <div style="font-size:44px;margin-bottom:14px;">📄</div>
+      <h3>ملف الشرح والكويز</h3>
+      <p>ملف الشرح الكامل مع الكويز — شاهد الشرح أولًا ثم افتح الملف للتدريب.</p>
+      <a class="btn-download" href="${content.fileUrl}" target="_blank" rel="noopener"
+        style="background:linear-gradient(135deg,${acc1},${acc2});color:#fff;box-shadow:0 6px 18px ${acc1}44;">
+        📂 فتح ملف الشرح والكويز
+      </a></div>`;
+  } else {
+    t2=`<div class="soon-box"><h3>الملف قيد الإعداد</h3><p>هيتم إضافة ملف الشرح والكويز قريبًا.</p></div>`;
+  }
+  // Tab 3: PDF
+  let t3='';
+  if(content.pdf){
+    t3=`<div class="download-card"><div style="font-size:44px;margin-bottom:14px;">⬇️</div>
+      <h3>${content.pdf.name}</h3><p>حمّل ملف PDF على جهازك وذاكر منه في أي وقت.</p>
+      <a class="btn-download" href="https://drive.google.com/uc?export=download&id=${content.pdf.driveId}" target="_blank" rel="noopener">⬇️ تحميل PDF</a></div>`;
+  } else {
+    t3=`<div class="soon-box"><h3>PDF قيد الإعداد</h3><p>هيتم رفع ملف PDF قريبًا.</p></div>`;
+  }
+  body.innerHTML=`
+    <div class="tab-nav" style="--acc1:${acc1};--acc2:${acc2}">
+      <button class="tab-btn active" onclick="switchTab(this,'tvid-${lessonId}')">🎥 فيديوهات</button>
+      <button class="tab-btn" onclick="switchTab(this,'tfile-${lessonId}')">📄 ملف الكويز</button>
+      <button class="tab-btn" onclick="switchTab(this,'tpdf-${lessonId}')">⬇️ PDF</button>
+    </div>
+    <div id="tvid-${lessonId}" class="tab-pane active">${t1}</div>
+    <div id="tfile-${lessonId}" class="tab-pane">${t2}</div>
+    <div id="tpdf-${lessonId}" class="tab-pane">${t3}</div>`;
+  showScreen('screen-lesson');
+  setCrumb([{label:'الرئيسية',action:'goHome()'},{label:`UNIT ${u.id}`,action:`openUnit(${u.id})`},{label:'الدرس'}]);
+}
+
+/* ===================== STARFIELD ===================== */
+(function(){
+  const canvas=document.getElementById('stars'),ctx=canvas.getContext('2d');
+  const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const GLYPHS=['+','−','×','÷','=','π','x','y'];
+  let w,h,stars=[],glyphs=[];
+  function resize(){
+    w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;
+    stars=Array.from({length:Math.floor(w*h/10500)},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.2+0.2,tw:Math.random()*Math.PI*2,speed:Math.random()*0.013+0.004}));
+    glyphs=Array.from({length:Math.max(7,Math.floor(w*h/130000))},()=>({x:Math.random()*w,y:Math.random()*h,ch:GLYPHS[Math.floor(Math.random()*GLYPHS.length)],size:Math.random()*12+15,tw:Math.random()*Math.PI*2,tspeed:Math.random()*0.012+0.005,vy:Math.random()*0.12+0.04}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const s of stars){s.tw+=s.speed;const a=0.3+Math.sin(s.tw)*0.3;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(243,216,119,${Math.max(0,a)})`;ctx.fill();}
+    for(const g of glyphs){g.tw+=g.tspeed;g.y-=g.vy;if(g.y<-30){g.y=h+30;g.x=Math.random()*w;}const a=0.08+Math.sin(g.tw)*0.06;ctx.font=`${g.size}px Georgia,serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=`rgba(243,216,119,${Math.max(0,a)})`;ctx.fillText(g.ch,g.x,g.y);}
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{resize();if(reduceMotion)draw();});
+  resize();
+  if(reduceMotion){draw();}else{draw();}
+})();
+</script>
+</body>
+</html>
