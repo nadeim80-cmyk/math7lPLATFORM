@@ -315,8 +315,19 @@ const CURRICULUM = [
 const LESSON_CONTENT = {
   'u1l0': {
     fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson1/',
+    videos:[
+      { en:'ما هي النسبة؟ — What is Ratio?', url:'https://youtu.be/5oriMQ2hHIY?si=WXFstqj6hSTk2q98' },
+      { en:'مثال: فرقة الجوقة — Example 1', url:'https://youtu.be/O4jQl3imQVo?si=bHOc-2T9iMKZptn4' },
+      { en:'النسب المتكافئة — Equivalent Ratios', url:'https://youtu.be/BZNFfHxegws?si=LqbRsO2bHQ0rkkL7' },
+      { en:'النسبة في أبسط صورة — Simplest Form', url:'https://youtu.be/BZNFfHxegws?si=7oWuymigVljsWLum' },
+      { en:'الحد المجهول والمعدل — Finding Unknown & Rate', url:'https://youtu.be/R_pNgusGUsI?si=V59R-OD7sY-Cs1cr' },
+    ],
+    tip:'شاهد الفيديوهات بالترتيب عشان تاخد مراجعة كاملة قبل ما تبدأ الدرس الأول!'
+  },
+  'u1l1': {
+    fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson1/',
     videos:[],
-    tip:'افتح الملف واتأكد إنك جاهز قبل ما تبدأ الدرس الأول!'
+    tip:'افتح ملف الشرح والكويز بعد ما تخلص مراجعة الـ Get Ready!'
   },
   // أضف الروابط هنا تدريجيًا
   // مثال:
@@ -423,7 +434,7 @@ function openUnit(id){
       <div class="lnum" style="color:${isGetReady?'var(--gold-light)':acc1};border-color:${isGetReady?'rgba(212,175,55,0.4)':acc1+'33'};font-size:${isGetReady?'18px':'11px'}">${isGetReady?'🚦':'درس<br>'+l.num}</div>
       <div class="ltext">
         <span class="en">${l.en}</span>
-        <span class="ar">${l.ar}${l.page?` &middot; صفحة ${l.page}`:''}</span>
+        <span class="ar">${l.ar}</span>
       </div>
       <span class="status-pill ${ready?'ready':'soon'}">${ready?'▶ متاح':'⏳ قريبًا'}</span>
     </div>`;
@@ -448,7 +459,7 @@ function openLesson(lessonId){
   document.getElementById('lessonHero').innerHTML=`
     <div class="eyebrow">UNIT ${u.id} — ${u.arTitle} · درس ${l.num}</div>
     <h2>${l.en}</h2>
-    <div class="page-ref">${l.ar} &middot; صفحة الكتاب ${l.page}</div>`;
+    <div class="page-ref">${l.ar}</div>`;
   const body=document.getElementById('lessonBody');
   if(!content){
     body.innerHTML=`<div class="soon-box"><h3>قيد الإعداد</h3><p>شرح هذا الدرس هيتضاف قريبًا جدًا، ابقَ على تواصل!</p><a class="btn-solid" href="${waLink('السلام عليكم، أريد الاستفسار عن موعد إضافة شرح درس: '+l.en)}" target="_blank">💬 اسأل على واتساب</a></div>`;
