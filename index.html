@@ -264,6 +264,7 @@ const CURRICULUM = [
     enTitle:'Numbers and Operations on Them',
     arTitle:'الأعداد والعمليات عليها',
     lessons:[
+      { id:'u1l0', num:'🚦', en:'Get Ready for Lesson 1: Ratio', ar:'استعد للدرس الأول: النسبة', page:null, isReady:true },
       { id:'u1l1', num:'1', en:'Proportion', ar:'النسبة والتناسب', page:10 },
       { id:'u1l2', num:'2', en:'Applications of Ratio & Proportion – Scale Drawings', ar:'تطبيقات النسبة والتناسب: الرسم بالمقياس', page:21 },
       { id:'u1l3', num:'3', en:'Applications of Ratio & Proportion – Proportional Division', ar:'تطبيقات النسبة والتناسب: القسمة التناسبية', page:31 },
@@ -312,6 +313,11 @@ const CURRICULUM = [
 
 /* ===================== LESSON CONTENT ===================== */
 const LESSON_CONTENT = {
+  'u1l0': {
+    fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson1/',
+    videos:[],
+    tip:'افتح الملف واتأكد إنك جاهز قبل ما تبدأ الدرس الأول!'
+  },
   // أضف الروابط هنا تدريجيًا
   // مثال:
   // 'u1l1': {
@@ -411,12 +417,13 @@ function openUnit(id){
     <p>${u.arTitle}</p>
     <span class="hero-stat">📚 <b>${s.ready}</b>&nbsp;من&nbsp;<b>${s.total}</b> دروس متاحة</span>`;
   document.getElementById('lessonList').innerHTML=u.lessons.map(l=>{
-    const ready=!!LESSON_CONTENT[l.id];
-    return `<div class="lesson-row" style="--accent:${u.accent}" onclick="openLesson('${l.id}')">
-      <div class="lnum" style="color:${acc1};border-color:${acc1}33;">درس<br>${l.num}</div>
+    const ready=!!LESSON_CONTENT[l.id]||l.isReady;
+    const isGetReady=l.num==='🚦';
+    return `<div class="lesson-row" style="--accent:${u.accent}${isGetReady?`;background:rgba(212,175,55,0.06);border-color:rgba(212,175,55,0.25)`:''}" onclick="openLesson('${l.id}')">
+      <div class="lnum" style="color:${isGetReady?'var(--gold-light)':acc1};border-color:${isGetReady?'rgba(212,175,55,0.4)':acc1+'33'};font-size:${isGetReady?'18px':'11px'}">${isGetReady?'🚦':'درس<br>'+l.num}</div>
       <div class="ltext">
         <span class="en">${l.en}</span>
-        <span class="ar">${l.ar} &middot; صفحة ${l.page}</span>
+        <span class="ar">${l.ar}${l.page?` &middot; صفحة ${l.page}`:''}</span>
       </div>
       <span class="status-pill ${ready?'ready':'soon'}">${ready?'▶ متاح':'⏳ قريبًا'}</span>
     </div>`;
