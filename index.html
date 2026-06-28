@@ -264,14 +264,17 @@ const CURRICULUM = [
     enTitle:'Numbers and Operations on Them',
     arTitle:'الأعداد والعمليات عليها',
     lessons:[
-      { id:'u1l0', num:'🚦', en:'Get Ready for Lesson 1: Ratio', ar:'استعد للدرس الأول: النسبة', page:null, isReady:true },
-      { id:'u1l1', num:'1', en:'Proportion', ar:'النسبة والتناسب', page:10 },
-      { id:'u1l2', num:'2', en:'Applications of Ratio & Proportion – Scale Drawings', ar:'تطبيقات النسبة والتناسب: الرسم بالمقياس', page:21 },
-      { id:'u1l3', num:'3', en:'Applications of Ratio & Proportion – Proportional Division', ar:'تطبيقات النسبة والتناسب: القسمة التناسبية', page:31 },
-      { id:'u1l4', num:'4', en:'Applications of Ratio & Proportion – Percentages', ar:'تطبيقات النسبة والتناسب: النسبة المئوية', page:43 },
-      { id:'u1l5', num:'5', en:'Sets and Their Operations', ar:'المجموعات والعمليات عليها', page:50 },
-      { id:'u1l6', num:'6', en:'Operations on Integers', ar:'العمليات على الأعداد الصحيحة', page:64 },
-      { id:'u1l7', num:'7', en:'Operations on Rational Numbers', ar:'العمليات على الأعداد النسبية', page:80 },
+      { id:'u1l0',  num:'🚦', en:'Get Ready for Lesson 1: Ratio',       ar:'استعد للدرس الأول: النسبة',              page:null, isReady:true },
+      { id:'u1l1',  num:'1',  en:'Proportion',                            ar:'النسبة والتناسب' },
+      { id:'u1l2',  num:'2',  en:'Applications of Ratio & Proportion – Scale Drawings',       ar:'تطبيقات النسبة والتناسب: الرسم بالمقياس' },
+      { id:'u1l3',  num:'3',  en:'Applications of Ratio & Proportion – Proportional Division',ar:'تطبيقات النسبة والتناسب: القسمة التناسبية' },
+      { id:'u1l3g', num:'🚦', en:'Get Ready for Lesson 4: Percentage',   ar:'استعد للدرس الرابع: النسبة المئوية',     page:null, isReady:true },
+      { id:'u1l4',  num:'4',  en:'Applications of Ratio & Proportion – Percentages',          ar:'تطبيقات النسبة والتناسب: النسبة المئوية' },
+      { id:'u1l5',  num:'5',  en:'Sets and Their Operations',             ar:'المجموعات والعمليات عليها' },
+      { id:'u1l5g', num:'🚦', en:'Get Ready for Lesson 6: The Set of Integers', ar:'استعد للدرس السادس: مجموعة الأعداد الصحيحة', page:null, isReady:true },
+      { id:'u1l6',  num:'6',  en:'Operations on Integers',                ar:'العمليات على الأعداد الصحيحة' },
+      { id:'u1l6g', num:'🚦', en:'Get Ready for Lesson 7: Rational Numbers', ar:'استعد للدرس السابع: الأعداد النسبية',  page:null, isReady:true },
+      { id:'u1l7',  num:'7',  en:'Operations on Rational Numbers',        ar:'العمليات على الأعداد النسبية' },
     ]
   },
   {
@@ -316,20 +319,27 @@ const LESSON_CONTENT = {
   'u1l0': {
     fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson1/',
     videos:[
-      { en:'ما هي النسبة؟ — What is Ratio?', url:'https://youtu.be/5oriMQ2hHIY?si=WXFstqj6hSTk2q98' },
-      { en:'مثال: فرقة الجوقة — Example 1', url:'https://youtu.be/O4jQl3imQVo?si=bHOc-2T9iMKZptn4' },
-      { en:'النسب المتكافئة — Equivalent Ratios', url:'https://youtu.be/BZNFfHxegws?si=LqbRsO2bHQ0rkkL7' },
-      { en:'النسبة في أبسط صورة — Simplest Form', url:'https://youtu.be/BZNFfHxegws?si=7oWuymigVljsWLum' },
-      { en:'الحد المجهول والمعدل — Finding Unknown & Rate', url:'https://youtu.be/R_pNgusGUsI?si=V59R-OD7sY-Cs1cr' },
+      { en:'ما هي النسبة؟ — What is Ratio?',                        url:'https://youtu.be/5oriMQ2hHIY?si=WXFstqj6hSTk2q98' },
+      { en:'مثال: فرقة الجوقة — Example 1',                         url:'https://youtu.be/O4jQl3imQVo?si=bHOc-2T9iMKZptn4' },
+      { en:'النسب المتكافئة — Equivalent Ratios',                    url:'https://youtu.be/BZNFfHxegws?si=LqbRsO2bHQ0rkkL7' },
+      { en:'النسبة في أبسط صورة — Simplest Form',                   url:'https://youtu.be/BZNFfHxegws?si=7oWuymigVljsWLum' },
+      { en:'الحد المجهول والمعدل — Finding Unknown & Rate',          url:'https://youtu.be/R_pNgusGUsI?si=V59R-OD7sY-Cs1cr' },
     ],
     tip:'شاهد الفيديوهات بالترتيب عشان تاخد مراجعة كاملة قبل ما تبدأ الدرس الأول!'
   },
-  'u1l1': {
-    fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson1/',
-    videos:[],
-    tip:'افتح ملف الشرح والكويز بعد ما تخلص مراجعة الـ Get Ready!'
-  },
-  // أضف الروابط هنا تدريجيًا
+  'u1l1':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson1/',             videos:[], tip:'افتح ملف الشرح والكويز بعد ما تخلص مراجعة الـ Get Ready!' },
+  'u1l2':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson2/',             videos:[], tip:'' },
+  'u1l3':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson3/',             videos:[], tip:'' },
+  'u1l3g': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson4/', videos:[], tip:'راجع النسبة المئوية قبل ما تبدأ الدرس الرابع!' },
+  'u1l4':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson4/',             videos:[], tip:'' },
+  'u1l5':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson5/',             videos:[], tip:'' },
+  'u1l5g': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson6/', videos:[], tip:'راجع مجموعة الأعداد الصحيحة قبل ما تبدأ الدرس السادس!' },
+  'u1l6':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson6/',             videos:[], tip:'' },
+  'u1l6g': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1getreadyforlesson7/', videos:[], tip:'راجع الأعداد النسبية قبل ما تبدأ الدرس السابع!' },
+  'u1l7':  { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit1esson7/',             videos:[], tip:'' },
+  'u2l1': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit2esson1/', videos:[], tip:'' },
+  'u2l2': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit2esson2/', videos:[], tip:'' },
+  'u2l3': { fileUrl:'https://nadeim80-cmyk.github.io/math7lunit2esson3/', videos:[], tip:'' },
   // مثال:
   // 'u1l1': {
   //   videos:[{ en:'شرح النسبة والتناسب', url:'https://youtu.be/XXXX' }],
